@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "repl-nix-third"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "repl_nix_third"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+streamlit = "^1.31.1"
+reportlab = "^4.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
