@@ -62,16 +62,22 @@ def main():
         st.session_state.reset = True
         st.experimental_rerun()
 
+    # Move the download button to the front
     if 'uploaded_file' in st.session_state and st.session_state.uploaded_file is not None and st.session_state.watermark_text:
+
         input_pdf = PdfFileReader(st.session_state.uploaded_file)
         watermark_pdf = create_watermark(input_pdf, st.session_state.watermark_text)
         watermarked_pdf = add_watermark(input_pdf, watermark_pdf)
 
+        # Customize the download button
         st.download_button(
             label="Download watermarked PDF",
             data=watermarked_pdf,
             file_name="watermarked_pdf.pdf",
-            mime="application/pdf"
+            mime="application/pdf",
+            key="download-button",
+            style="background-color: red; color: white;",
+            icon="bi bi-download",
         )
 
 if __name__ == "__main__":
