@@ -49,7 +49,7 @@ def add_watermark(input_pdf, watermark_pdf, output_pdf_path):
     st.write("Watermark added successfully.")
 
 def main():
-    st.title('Frank's PDF Watermarker ')
+    st.title('Frank\'s PDF Watermarker ')
 
     uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
     watermark_text = st.text_input("Watermark text", "Confidential")
