@@ -12,13 +12,13 @@ def create_watermark(input_pdf, text="Confidential"):
     page_size = page.mediaBox
     watermark_pdf = BytesIO()
     c = canvas.Canvas(watermark_pdf, pagesize=(page_size[2], page_size[3]))
-    c.setFillColorRGB(0.9, 0.9, 0.9, alpha=0.5)  # Less pale grey
-    c.setFont("Helvetica", 12)  # Font size 12
+    c.setFillColorRGB(0.95, 0.95, 0.95, alpha=0.5)  # Very pale grey
+    c.setFont("Helvetica", 5)  # Very small font
 
     # Repeat the watermark text as a pattern
-    text_width = c.stringWidth(text, "Helvetica", 12)
-    for x in range(0, int(page_size[2]), int(text_width) + 60):  # Adjust spacing based on your preference
-        for y in range(0, int(page_size[3]), 60):  # Adjust vertical spacing
+    text_width = c.stringWidth(text, "Helvetica", 5)
+    for x in range(0, int(page_size[2]), int(text_width) + 20):  # Adjust spacing based on your preference
+        for y in range(0, int(page_size[3]), 20):  # Adjust vertical spacing
             c.saveState()
             c.translate(x, y)
             c.drawCentredString(0, 0, text)
@@ -51,20 +51,12 @@ def add_watermark(input_pdf, watermark_pdf):
 def main():
     st.title("Frank's PDF Watermarker")
 
-    if 'reset' not in st.session_state or st.session_state.reset:
-        uploaded_file = st.file_uploader("Choose a PDF file", type="pdf", key="uploaded_file")
-        watermark_text = st.text_input("Watermark text", "Confidential", key="watermark_text")
+    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
+    watermark_text = st.text_input("Watermark text", "Confidential")
 
-    if st.button("Watermark another page"):
-        # This will clear the session state and refresh the page
-        for key in st.session_state.keys():
-            del st.session_state[key]
-        st.session_state.reset = True
-        st.experimental_rerun()
-
-    if 'uploaded_file' in st.session_state and st.session_state.uploaded_file is not None and st.session_state.watermark_text:
-        input_pdf = PdfFileReader(st.session_state.uploaded_file)
-        watermark_pdf = create_watermark(input_pdf, st.session_state.watermark_text)
+    if uploaded_file is not None and watermark_text:
+        input_pdf = PdfFileReader(uploaded_file)
+        watermark_pdf = create_watermark(input_pdf, watermark_text)
         watermarked_pdf = add_watermark(input_pdf, watermark_pdf)
 
         st.download_button(
@@ -73,6 +65,9 @@ def main():
             file_name="watermarked_pdf.pdf",
             mime="application/pdf"
         )
+
+        if st.button("Watermark another page"):
+            st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
