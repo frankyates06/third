@@ -15,7 +15,7 @@ def create_watermark(input_pdf, output_file_path, text="Confidential"):
 
     c = canvas.Canvas(output_file_path, pagesize=(page_size[2], page_size[3]))
     c.setFillColorRGB(0.95, 0.95, 0.95, alpha=0.5)  # Very pale grey
-    c.setFont("Helvetica", 5)  # Very small font
+    c.setFont("Helvetica", 10)  # Very small font
 
     # Repeat the watermark text as a pattern
     text_width = c.stringWidth(text, "Helvetica", 5)
@@ -49,7 +49,7 @@ def add_watermark(input_pdf, watermark_pdf, output_pdf_path):
     st.write("Watermark added successfully.")
 
 def main():
-    st.title('PDF Watermarker')
+    st.title('Frank's PDF Watermarker ')
 
     uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
     watermark_text = st.text_input("Watermark text", "Confidential")
